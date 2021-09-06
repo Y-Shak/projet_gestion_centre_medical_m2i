@@ -6,8 +6,11 @@
 <main>
 
 
+    <div class="form-line app-element__danger app-table" th:if="${errorMessage}" >
+        <p th:text="${errorMessage}"></p>
+    </div>
 
-    <table class="app-table">
+    <table class="app-table" >
         <thead>
             <tr>
                 <th>Nom et prenom </th>
@@ -15,7 +18,7 @@
                 <th colspan="2">Action</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody th:if="${patients}">
             <tr th:each="patient : ${patients}">  <!-- Boucle for sur la list patients-->
                 <td th:utext="${patient.getNom()}"></td>
                 <td th:utext="${patient.ville?.nom}"></td>

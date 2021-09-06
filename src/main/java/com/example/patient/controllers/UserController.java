@@ -5,6 +5,7 @@ import com.example.patient.entities.UserEntity;
 import com.example.patient.entities.VilleEntity;
 import com.example.patient.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/user")
+@Secured("ROLE_ADMIN")
 public class UserController {
 
     @Autowired
@@ -59,8 +61,10 @@ public class UserController {
 
             user.setEmail((String) request.getParameter("email"));
             user.setUsername((String) request.getParameter("username"));
+
             String password = (String) request.getParameter("password");
             user.setPassword(passwordEncoder.encode(password));
+
             user.setRoles((String) request.getParameter("roles"));
             user.setName((String) request.getParameter("name"));
             user.setPhotouser((String) request.getParameter("photouser"));

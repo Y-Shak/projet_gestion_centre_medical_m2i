@@ -2,8 +2,13 @@ package com.example.patient.controllers;
 
 import com.example.patient.entities.PatientEntity;
 import com.example.patient.entities.VilleEntity;
+import com.example.patient.exceptions.ErrorChargingData;
+import com.example.patient.exceptions.ErrorChargingOneElementData;
 import com.example.patient.repositories.PatientRepository;
 import com.example.patient.repositories.VilleRepository;
+import com.example.patient.services.PatientService;
+import com.example.patient.services.VilleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,21 +29,55 @@ public class PatientController {
         this.villeRepository = villeRepository;
     }
 
+    @Autowired
+    private PatientService patientService;
+    @Autowired
+    private VilleService villeService;
+    // partie get all
+    @RequestMapping("/all")
+    public String getAllPatients(Model model){
+        String errorMessage = null;
+
+        model.addAttribute("titre","Liste des patients ");
+        model.addAttribute("actionToDoText","Ajouter un nouveau patient par ici ");
+        model.addAttribute("actionToDoLink","patient/add");
+
+        try {
+            model.addAttribute("patients" , patientService.findAllPatients());
+        } catch (Exception e) {
+            e.printStackTrace();
+            errorMessage = e.getMessage();
+        }
+        model.addAttribute("errorMessage", errorMessage);
+        return "patient/list";
+    }
+
     //    partie add patient
     @GetMapping("/add")
     public String addPatientGet(Model model){
         model.addAttribute("titre","ajouter un patient");
-        List<VilleEntity> villes = (List<VilleEntity>) villeRepository.findAll();
-        model.addAttribute("villes" , villes);
-        PatientEntity patient = new PatientEntity();
-//        patient.setId(0);
-//        patient.setNom("");
-//        patient.setPrenom("");
-        VilleEntity v = new VilleEntity();
-//        v.setId(0);
-        patient.setVille(v);
-        model.addAttribute("patient", patient);
-//        model.addAttribute("patient", new PatientEntity());
+        String errorMessage = null;
+        model.addAttribute("patient", null);
+        try {
+            model.addAttribute("villes" , villeService.findAllVilles());
+            return "patient/add_edit";
+        } catch (Exception e) {
+            errorMessage = e.getMessage();
+            model.addAttribute("errorMessage", errorMessage);
+            return "patient/add_edit";
+        }
+    }
+    @GetMapping("/edit/{id}")
+    public String editPatientGet(@PathVariable int id, Model model){
+        model.addAttribute("titre","modifier le patient");
+        String errorMessage = null;
+        try{
+            model.addAttribute("villes" , villeService.findAllVilles());
+            model.addAttribute("patient", patientService.findPatienById(id));
+        }catch(Exception e){
+            errorMessage = e.getMessage();
+            model.addAttribute("errorMessage", errorMessage);
+        }
         return "patient/add_edit";
     }
 
@@ -46,97 +85,60 @@ public class PatientController {
     public String addPatientPost(HttpServletRequest request,Model model){
         String errorMessage = null;
         try {
-            PatientEntity p = new PatientEntity();
-            p.setNom((String) request.getParameter("nom"));
-            p.setPrenom((String) request.getParameter("prenom"));
-            p.setTelephone((String) request.getParameter("telephone"));
-            p.setEmail((String) request.getParameter("email"));
-            p.setPhoto((String) request.getParameter("photo"));
-
-            VilleEntity ville = new VilleEntity();
-            ville.setId(Integer.parseInt(request.getParameter("ville_depuis_template")));
-            p.setVille(ville);
-            p= null;
-            patientRepository.save(p);
+            patientService.addPatient(
+                    (String) request.getParameter("nom"),
+                    (String) request.getParameter("prenom"),
+                    (String) request.getParameter("telephone"),
+                    (String) request.getParameter("email"),
+                    (String) request.getParameter("photo"),
+                    (String)  request.getParameter("ville_depuis_template")
+            );
             model.addAttribute("errorMessage", errorMessage);
             return "redirect:/patient/all";
         }catch (Exception e){
-            e.printStackTrace();
             errorMessage = e.getMessage();
             model.addAttribute("errorMessage", errorMessage);
-            return "patient/add_edit";
+            return addPatientGet(model);
         }
     }
 
 //    partie edit patient
-    @GetMapping("/edit/{id}")
-    public String editPatientGet(@PathVariable String id, Model model){
-        model.addAttribute("titre","modifier le patient");
-        try{
-            List<VilleEntity> villes = (List<VilleEntity>) villeRepository.findAll();
-            model.addAttribute("villes" , villes);
-            PatientEntity patient = patientRepository.findById(Integer.parseInt(id)).get();
-            model.addAttribute("patient", patient);
-        }catch(Exception e){
-            e.printStackTrace();
 
-        }
-
-        return "patient/add_edit";
-    }
     @PostMapping("/edit/{id}")
-    public String editPatientPost(@PathVariable String id, HttpServletRequest request, Model model){
+    public String editPatientPost(@PathVariable int id, HttpServletRequest request, Model model){
         String errorMessage = null;
         try{
-            PatientEntity p = patientRepository.findById(Integer.parseInt(id)).get();
-
-            p.setNom((String) request.getParameter("nom"));
-            p.setPrenom((String) request.getParameter("prenom"));
-            p.setTelephone((String) request.getParameter("telephone"));
-            p.setEmail((String) request.getParameter("email"));
-            p.setPhoto((String) request.getParameter("photo"));
-
-
-            VilleEntity ville = villeRepository.findById(Integer.parseInt(request.getParameter("ville_depuis_template"))).get();
-
-            p.setVille(ville);
-            patientRepository.save(p);
-            model.addAttribute("errorMessage", errorMessage);
+            patientService.editPatient(
+                    id,
+                    (String) request.getParameter("nom"),
+                    (String) request.getParameter("prenom"),
+                    (String) request.getParameter("telephone"),
+                    (String) request.getParameter("email"),
+                    (String) request.getParameter("photo"),
+                    (String)  request.getParameter("ville_depuis_template")
+            );
             return "redirect:/patient/all";
 
-
-            // todo creer un attrinut erreur dans la template qui contient le message faire set dans le catch
         }catch(Exception e){
-//            e.printStackTrace();
+            // todo test edit et add apres modification
             errorMessage = e.getMessage();
             model.addAttribute("errorMessage", errorMessage);
-            return "patient/add_edit";
+            return editPatientGet(id,model);
         }
 
     }
 
     @GetMapping("/delete/{id}")
-    public String deletePatient(@PathVariable String id){
+    public String deletePatient(@PathVariable int id){
 
         try {
-            patientRepository.deleteById(Integer.parseInt(id));
-
+            patientService.deletePatient(id);
         }catch (Exception e){
             e.printStackTrace();
         }
         return "redirect:/patient/all";
     }
 
-    @RequestMapping("/all")
-    public String getAllPatients(Model model){
-        model.addAttribute("titre","Liste des patients ");
-        model.addAttribute("actionToDoText","Ajouter un nouveau patient par ici ");
-        model.addAttribute("actionToDoLink","patient/add");
 
-
-        List<PatientEntity> patients = (List<PatientEntity>) patientRepository.findAll();
-        model.addAttribute("patients" , patients);
-        return "patient/list";
-    }
 
 }

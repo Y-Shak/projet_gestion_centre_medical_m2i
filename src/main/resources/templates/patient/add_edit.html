@@ -4,6 +4,9 @@
 
     <header th:include="~{fragments/header :: header}"></header>
     <main >
+        <div class="form-line app-element__danger app-table" th:if="${errorMessage}">
+            <p  th:text="${errorMessage}"></p>
+        </div>
         <div class="app_main__login_form">
             <h1 th:text="${titre}" ></h1>
             <hr>
@@ -42,14 +45,10 @@
                         <option th:each="ville : ${villes}"
                                 th:value="${ville?.id}"
                                 th:utext="${ville?.nom}"
-                                th:selected="${ville?.id == patient.ville?.id}"
+                                th:selected="${ville?.id == patient?.ville?.id}"
                         ></option>
                     </select>
                 </div>
-                <div class="form-line">
-                    <p th:if="${errorMessage}" th:text="${errorMessage}"></p>
-                </div>
-
                 <div class="form-line">
                     <button type="submit">Envoyer</button>
                 </div>
