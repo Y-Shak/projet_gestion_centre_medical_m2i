@@ -1,0 +1,58 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:include="~{fragments/head :: head}"></head>
+<body>
+
+    <header th:include="~{fragments/header :: header}"></header>
+    <main>
+        <div class="app_main__login_form">
+            <h1 th:text="${titre}" ></h1>
+            <hr>
+            <div>
+                <p> insérer les informations puis cliquer sur envoyer</p>
+            </div>
+            <form name="monForm"  method="post">
+                <div class="form-line">
+                    <label>Nom  *</label>
+                    <input type="text" th:value="${user?.name}" name="name" placeholder="Votre nom" required>
+                </div>
+                <div class="form-line">
+                    <label>Username *</label>
+                    <input type="text" th:value="${user?.username}" name="username" placeholder="Votre username" required>
+                </div>
+                <div class="form-line">
+                    <label>Roles *</label>
+                    <!--                <input type="text" th:value="${user.roles}" name="roles" placeholder="Votre role" required>-->
+                    <select name="roles" required>
+                        <option th:if="${user !=null}" th:selected="${user?.roles}" th:utext="${user?.roles=='ROLE_ADMIN'} ? 'Admin' : 'User'"></option>
+                        <option th:if="${user ==null}" th:value="ROLE_ADMIN" th:utext="Admin"></option>
+                        <option th:if="${user ==null}" th:value="ROLE_USER" th:utext="User" selected></option>
+                        <!--                    <option value="ROLE_USER">User</option>-->
+                    </select>
+                </div>
+
+                <div class="form-line" th:if="${user ==null}">
+                    <label>Email * </label>
+                    <input type="email" th:value="${user?.email}" name="email" placeholder="email@em.ail" required>
+                </div>
+
+                <div class="form-line">
+                    <label>Mot de passe * </label>
+                    <input type="password" name="password"  required>
+                </div>
+
+                <div class="form-line">
+                    <label>Photo link </label>
+                    <input type="text" th:value="${user?.photouser}" name="photouser" placeholder="Votre photo" >
+                </div>
+
+                <div class="form-line">
+                    <button type="submit">Envoyer</button>
+                </div>
+
+            </form>
+        </div>
+
+    </main>
+    <footer th:include="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:include="~{fragments/head :: head}"></head>
+<body>
+
+<header th:include="~{fragments/header :: header}"></header>
+<main>
+
+
+
+    <table class="app-table">
+        <thead>
+        <tr>
+            <th>Username </th>
+            <th>Email</th>
+            <th>Role</th>
+            <th colspan="2">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">  <!-- Boucle for sur la list patients-->
+            <td th:utext="${user.username}"></td>
+            <td th:utext="${user.email}"></td>
+            <td th:utext="${user?.roles=='ROLE_ADMIN'} ? 'Admin' : 'User'"></td>
+            <td>
+                <button class="app-button__small app-element__warning">
+                    <a class="app-element__warning" th:href="@{/user/edit/{id} (id=${user?.id} )}">Edit</a>
+                </button>
+            </td>
+            <td>
+                <button class="app-button__small app-element__danger">
+                    <a th:href="@{/user/delete/{id}(id=${user?.id})}"
+                       th:data-confirm-delete="|Êtes-vous sûr de vouloir supprimer cet utilisateur ${user?.username}?|"
+                       onclick="return confirm(this.getAttribute('data-confirm-delete'))"
+                       class="app-element__danger"
+                    >Delete
+                    </a>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</main>
+<footer th:include="~{fragments/footer :: footer}"></footer>
+
+
+</body>
+</html>

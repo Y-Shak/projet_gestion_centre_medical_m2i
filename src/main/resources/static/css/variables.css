@@ -1,0 +1,24 @@
+:root{
+
+
+    --primary-color-light__background : rgb(255, 255, 255);
+    --primary-color-light__text : rgb(12, 12, 12);
+
+    --primary-color-medium__background : rgb(223,30,31);
+    --primary-color-medium__text : rgb(255, 255, 255);
+
+    --primary-color-dark__background : rgb(43,46,48);
+    --primary-color-dark__text : rgb(255, 255, 255);
+
+    --title-dark : rgb(12, 12, 12);
+    --title-medium : rgb(223,30,31);
+    --title-light : rgb(166,166,166);
+
+    --paragraph : rgb(166,166,166);
+
+    --color-warning : rgb(214, 162, 6)	;
+    --color-warning__text : rgb(255,255,255);
+
+    --color-danger : rgb(223,30,31)	;
+    --color-danger__text : rgb(255,255,255);
+}

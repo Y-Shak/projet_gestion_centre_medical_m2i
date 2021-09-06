@@ -1,0 +1,32 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:include="~{fragments/head :: head}"></head>
+<body>
+
+    <header th:include="~{fragments/header :: header}"></header>
+    <main>
+        <div class="app_main__login_form">
+            <h1 th:text="${titre}" ></h1>
+            <hr>
+            <div>
+                <p> insérer les informations puis cliquer sur envoyer</p>
+            </div>
+            <form name="monForm" method="post">
+                <div class="form-line">
+                    <label>Nom ville *</label>
+                    <input type="text" th:value="${ville?.nom}" name="nom" placeholder="Nom de la ville" required>
+                </div>
+                <div class="form-line">
+                    <label>Code postal *</label>
+                    <input type="number" th:value="${ville?.codePostal}" name="codePostal" placeholder="Code postale" required>
+                </div>
+                <div class="form-line">
+                    <button type="submit">Envoyer</button>
+                </div>
+
+            </form>
+        </div>
+
+    </main>
+    <footer th:include="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

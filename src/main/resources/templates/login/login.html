@@ -1,0 +1,44 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:include="~{fragments/head :: head}"></head>
+<body>
+<header th:include="~{fragments/header :: header}"></header>
+
+<main >
+    <div class="app_main__login_form">
+        <h1 th:text="${titre}" ></h1>
+        <hr>
+        <div>
+            <p>Enter vos informations afin d'acceder à votre espace personnel </p>
+        </div>
+        <form name="monForm" action="/login" method="post">
+            <div class="form-line">
+                <label> Username/ Email *</label>
+                <input type="text" name="username" placeholder="Votre email / Username" required>
+            </div>
+            <div class="form-line">
+                <label>Mot de passe *</label>
+                <input type="password" name="password" placeholder="mot de passe " required>
+            </div>
+            <div class="form-line " th:if="${param.error}">
+                <p class="app-element__danger" > Nom d'utilisateur ou mot de passe incorrect.</p>
+
+            </div>
+<!--            <div class="form-line app-element__danger" th:if="${param.error}"-->
+<!--                 th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION']?.message}">-->
+<!--                Erreur: <span th:text="${errorMsg}">Wrong input!</span>-->
+<!--            </div>-->
+            <div class="form-line">
+                <button type="submit">
+                    Se connecter
+                </button>
+
+            </div>
+
+        </form>
+    </div>
+
+</main>
+<footer th:include="~{fragments/footer :: footer}"></footer>
+
+</body>
+</html>

@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap');
+body{
+    margin:  0px 0px;
+}
+/* partie header */
+
+/* partie header ---- menu*/
+.app-header-menu{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    height: 70px;
+    /*margin-top: 15px;*/
+    background-color: var(--primary-color-medium__background);
+    color: var(--primary-color-medium__text);
+}
+.app-header-menu ul{
+
+    padding: 0px;
+    margin-top: 16px;
+    margin-bottom: 0px;
+
+    /* height: 70px; */
+
+}
+.app-header-menu li{
+    display: inline-block;
+    list-style: none;
+    padding: 10px;
+}
+.app-header-menu__links {
+    background-color: var(--primary-color-medium__background);
+    color: var(--primary-color-medium__text);
+    /* width: 60%; */
+}
+.app-header-menu__links button{
+    border : none;
+    background-color: var(--primary-color-medium__background);
+    color: var(--primary-color-medium__text);
+}
+
+/*stype pour le formulaire de login */
+
+.app_main__login_form > h1 {
+    text-align: center;
+    font-size: 22px;
+}
+.app_main__login_form{
+    color: #6f6d6d;
+    background: #FFF;
+    width: 550px;
+    margin: 50px auto 0;
+    padding: 15px;
+    border-radius: 4px;
+    border: solid 1px #CCC;
+}
+.app_main__login_form form {
+    margin-top: 30px;
+}
+
+.app_main__login_form label {
+    display: inline-block;
+    width: 40%;
+}
+
+.app_main__login_form input,
+.app_main__login_form select {
+    border: solid 1px #CCC;
+    font-size: 14px;
+    padding: 5px;
+    width: 59%;
+    border-spacing: 0;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+.app_main__login_form button {
+    background: var(--primary-color-medium__background);
+    color: var(--primary-color-medium__text);
+    border: 0 none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-top: 30px;
+}
+.app_main__login_form a:link, .app-header-menu__links a:link
+{
+    text-decoration:none;
+}
+.app_main__login_form a, .app-header-menu__links a {
+
+    background: var(--primary-color-medium__background);
+    color: var(--primary-color-medium__text);
+    border: 0 none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-top: 30px;
+}
+
+.app_main__login_form div.form-line {
+    margin-bottom: 18px;
+}
+/*style pour la partie des titres*/
+.app-nav-titles{
+    background-color: var(--primary-color-dark__background);
+    color: var(--primary-color-dark__text);
+    text-align: center;
+}
+.app-nav-titles h1, .app-nav-titles h2 {
+    margin-top: 0px;
+}
+.app-nav-titles a{
+    color: var(--primary-color-dark__text);;
+}
+
+/*style pour la table de patients*/
+.app-table{
+    width: 600px;
+    margin: 50px auto 0;
+    padding: 15px;
+    border-radius: 4px;
+    border: solid 1px #CCC;
+}
+.app-table > thead{
+    background: var(--primary-color-dark__background);
+    color: var(--primary-color-dark__text);
+}
+.app-table > tbody{
+    background: var(--primary-color-light__background);
+    color: var(--primary-color-light__text);
+}
+th, td {
+    margin: 0px;
+    padding: 9px;
+    text-align: start;
+    border: solid 1px #CCC;
+}
+.app-table a:link
+{
+    text-decoration:none;
+}
+.app-button__small{
+    padding: 3px;
+    font-size: 14px;
+    font-style: oblique;
+    font-weight: bold;
+    width: 100%;
+    border-radius: 15px;
+    text-align: center;
+}
+.app-element__warning{
+     background-color: var(--color-warning);
+     color: var(--color-warning__text);
+ }
+.app-element__danger{
+    background-color: var(--color-danger);
+    color: var(--color-danger__text);
+}
+
+.app-div-error{
+    font-size: 14px;
+    padding: 5px;
+    text-align: center;
+}
+    /*pour avoir le footer colle en bas */
+body {
+    margin:0;
+    padding:0;
+    height:100%;
+}
+main {
+    min-height:100%;
+    position:relative;
+    padding-bottom:70px;   /* Hauteur du pied de page */
+}
+footer {
+    position:absolute;
+    bottom:0;  /* on le colle en bas */
+    width:100%;
+    height:70px;   /* Hauteur du pied de page */
+}

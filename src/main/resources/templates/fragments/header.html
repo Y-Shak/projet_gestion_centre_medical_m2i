@@ -1,0 +1,20 @@
+
+
+<div th:fragment="header">
+    <nav  class="app-header-menu">
+        <ul class="app-header-menu__links">
+            <li><button><a href="/" >Dashboard</a></button></li>
+            <li><button><a href="/patient/all">Patients</a></button></li>
+            <li><button><a href="#">RDV</a></button></li>
+            <li><button><a href="/ville/all">Ville</a></button></li>
+            <li><button><a href="/user/all">Utilisateurs</a></button></li>
+            <li><button><a href="/logout" >Log OUT</a></button></li>
+        </ul>
+    </nav>
+    <div  class="app-nav-titles">
+        <h1 th:text="${titre}" ></h1>
+
+        <h2> <a th:href="@{/{action}(action=${actionToDoLink})}" th:text="${actionToDoText}">Ajouter un nouveau patient par ici</a> </h2>
+<!--        <h2> <a href="/patient/add">Ajouter un nouveau patient par ici</a> </h2>-->
+    </div>
+</div>

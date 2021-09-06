@@ -1,0 +1,61 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:include="~{fragments/head :: head}"></head>
+<body>
+
+<header th:include="~{fragments/header :: header}"></header>
+<main>
+
+
+
+    <table class="app-table">
+        <thead>
+            <tr>
+                <th>Nom et prenom </th>
+                <th>Ville</th>
+                <th colspan="2">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="patient : ${patients}">  <!-- Boucle for sur la list patients-->
+                <td th:utext="${patient.getNom()}"></td>
+                <td th:utext="${patient.ville?.nom}"></td>
+
+                <td>
+                    <button class="app-button__small app-element__warning">
+                        <a class="app-element__warning" th:href="@{/patient/edit/{id} (id=${patient.getId()} )}">Edit</a>
+                    </button>
+                </td>
+                <td>
+                    <button class="app-button__small app-element__danger">
+                        <a th:href="@{/patient/delete/{id}(id=${patient.id})}"
+                           th:data-confirm-delete="|Êtes-vous sûr de vouloir supprimer ce patient ${patient.nom}?|"
+                           onclick="return confirm(this.getAttribute('data-confirm-delete'))"
+                           class="app-element__danger"
+                        >Delete
+                        </a>
+                    </button>
+
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+    <!--    <th:block th:each="patient : ${patients}">-->
+
+    <!--        <h3 th:utext="${patient}"></h3>-->
+
+    <!--    </th:block>-->
+
+<!--    <th:block th:each="ville : ${villes}">   &lt;!&ndash; Boucle for sur la list villes&ndash;&gt;-->
+
+<!--        <th:block th:if="${ville.getId() == patient.getVille().getId()}"> &lt;!&ndash; Condition egalité des IDs&ndash;&gt;-->
+<!--            <td th:utext="${ville.getNom()}"></td>-->
+<!--        </th:block>-->
+
+<!--    </th:block>-->
+</main>
+<footer th:include="~{fragments/footer :: footer}"></footer>
+
+
+</body>
+</html>
