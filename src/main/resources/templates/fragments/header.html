@@ -1,15 +1,21 @@
 
 
-<div th:fragment="header">
+<div th:fragment="header" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <nav  class="app-header-menu">
         <ul class="app-header-menu__links">
             <li><button><a href="/" >Dashboard</a></button></li>
             <li><button><a href="/patient/all">Patients</a></button></li>
             <li><button><a href="#">RDV</a></button></li>
             <li><button><a href="/ville/all">Ville</a></button></li>
-            <li><button><a href="/user/all">Utilisateurs</a></button></li>
+            <li><button>
+                <a href="/user/all" sec:authorize="hasRole('ROLE_ADMIN')">Utilisateurs</a>
+            </button></li>
+            <li sec:authorize="isAuthenticated()"><button>
+                <a href="/#" >Edit Your Profile : <span th:text="${#authorization.getAuthentication().getPrincipal().getUser().name}"></span> </a>
+<!--                <a href="/#" >Edit Your Profile :  <span sec:authentication="name"></span></a>-->
+            </button></li>
             <li><button><a href="/logout" >Log OUT</a></button></li>
-            <li><button><a href="/#" >Changer votre mdp</a></button></li>
+
         </ul>
     </nav>
     <div  class="app-nav-titles">

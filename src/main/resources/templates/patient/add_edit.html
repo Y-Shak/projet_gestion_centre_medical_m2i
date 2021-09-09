@@ -4,9 +4,7 @@
 
     <header th:include="~{fragments/header :: header}"></header>
     <main >
-        <div class="form-line app-element__danger app-table" th:if="${errorMessage}">
-            <p  th:text="${errorMessage}"></p>
-        </div>
+        <div th:include="~{fragments/errorMessage}"></div>
         <div class="app_main__login_form">
             <h1 th:text="${titre}" ></h1>
             <hr>
@@ -16,26 +14,26 @@
             <form name="monForm" method="post">
                 <div class="form-line">
                     <label>Nom *</label>
-                    <input type="text" th:value="${patient?.getNom()}" name="nom" placeholder="Votre nom" required>
+                    <input type="text" th:value="${patient?.nom}" name="nom" placeholder="Votre nom" required>
                 </div>
                 <div class="form-line">
                     <label>Prénom *</label>
-                    <input type="text" th:value="${patient?.getPrenom()}" name="prenom" placeholder="Votre prénom" required>
+                    <input type="text" th:value="${patient?.prenom}" name="prenom" placeholder="Votre prénom" required>
                 </div>
 
                 <div class="form-line">
                     <label>Telephone </label>
-                    <input type="tel" th:value="${patient?.getTelephone()}" name="telephone" placeholder="06 56 78 89 09" >
+                    <input type="tel" th:value="${patient?.telephone}" name="telephone" placeholder="06 56 78 89 09" >
                 </div>
 
                 <div class="form-line">
                     <label>Email * </label>
-                    <input type="email" th:value="${patient?.getEmail()}" name="email" placeholder="email@em.ail" required>
+                    <input type="email" th:value="${patient?.email}" name="email" placeholder="email@em.ail" required>
                 </div>
 
                 <div class="form-line">
                     <label>Photo link </label>
-                    <input type="text" th:value="${patient?.getPhoto()}" name="photo" placeholder="Votre adresse" >
+                    <input type="text" th:value="${patient?.photo}" name="photo" placeholder="Votre adresse" >
                 </div>
 
                 <div class="form-line">
@@ -49,6 +47,20 @@
                         ></option>
                     </select>
                 </div>
+
+                <select  name="pc">
+                    <option value="3" >LILLE</option>
+                    <option value="4">PARIS</option>
+                </select>
+
+                request.getParameter("pc") ====> "3"
+                <select  name="pc">
+                    <option value="TYPE_ASUS">Asus</option>
+                    <option value="TYPE_HP">Hp</option>
+                </select>
+                request.getParameter("pc") ====> TYPE_ASUS
+
+
                 <div class="form-line">
                     <button type="submit">Envoyer</button>
                 </div>

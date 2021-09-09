@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.sql.DataSource;
 
 @Configuration
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(
         securedEnabled = true,
         jsr250Enabled = true,
@@ -54,6 +56,7 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // ici c'est une methode static
 //        auth.inMemoryAuthentication().withUser("admin").password("{noop}admin").roles("ADMIN");
+
         // ici c'est l'exemple avec JDBC
         /*
         auth.jdbcAuthentication()

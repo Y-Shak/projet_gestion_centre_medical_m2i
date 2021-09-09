@@ -9,6 +9,14 @@ public class VilleEntity {
     private String nom;
     private int codePostal;
 
+    public VilleEntity(String nom, int codePostal) {
+        this.nom = nom;
+        this.codePostal = codePostal;
+    }
+
+    public VilleEntity() {
+    }
+
     @Id
     @Column(name = "id")
     public int getId() {

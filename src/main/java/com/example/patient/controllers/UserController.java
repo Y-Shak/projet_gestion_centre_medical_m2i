@@ -21,7 +21,9 @@ import java.util.List;
 @RequestMapping("/user")
 @Secured("ROLE_ADMIN")
 public class UserController {
-
+    // todo extraire les methodes depuis UserController
+    // faire  cette exception DataIntegrityViolationException de org.hibernate.exception.ConstraintViolationException
+    // sur le champs email pour qu'il soit unique
     @Autowired
     private PasswordEncoder passwordEncoder;
 

@@ -5,10 +5,15 @@ import com.example.patient.entities.VilleEntity;
 import com.example.patient.exceptions.*;
 import com.example.patient.repositories.PatientRepository;
 import com.example.patient.repositories.VilleRepository;
+import com.example.patient.utile.Validation;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class PatientService {
@@ -33,7 +38,7 @@ public class PatientService {
         }
     }
 
-    public PatientEntity findPatienById(int id ) throws ErrorChargingOneElementData, UnknownErrorCauses {
+    public PatientEntity findPatientById(int id ) throws ErrorChargingOneElementData, UnknownErrorCauses {
         try {
             // faire ça pour debuger cette exception
 //            Integer.parseInt("ddd");
@@ -56,9 +61,12 @@ public class PatientService {
     }
 
 
-    public void addPatient(String nom, String prenom, String telephone, String email, String photo, String ville) throws UnsupportedValueOfIdDetected, SavingElementFailed, UnknownErrorCauses {
+    @Transactional
+    public void addPatient(String nom, String prenom, String telephone, String email, String photo, String ville) throws UnsupportedValueOfIdDetected, SavingElementFailed, UnknownErrorCauses, InvalidFiledData {
 
         try {
+//            isDataPatientValide(nom, prenom, telephone, email, photo, ville);
+            Validation.isDataPatientValide(nom, prenom, telephone, email, photo, ville);
             PatientEntity p = new PatientEntity();
             VilleEntity villeEntity = new VilleEntity();
             p.setNom(nom);
@@ -75,14 +83,19 @@ public class PatientService {
                 throw new UnsupportedValueOfIdDetected("Selectionnez une ville valide depuis la liste et réessayer");
         }catch (IllegalArgumentException e1){
                 throw  new SavingElementFailed("Impossible d'enregistrer pour le moment réessayer plus tard");
-        }catch (Exception e2){
+        }catch (InvalidFiledData e2){
+            throw e2;
+        } catch (Exception e3){
             throw new UnknownErrorCauses(" Erreur inconnue. ");
         }
 
     }
 
-    public void editPatient(int id, String nom, String prenom, String telephone, String email, String photo, String ville) throws UnsupportedValueOfIdDetected, SavingElementFailed, UnknownErrorCauses {
+
+    @Transactional
+    public void editPatient(int id, String nom, String prenom, String telephone, String email, String photo, String ville) throws UnsupportedValueOfIdDetected, SavingElementFailed, UnknownErrorCauses, InvalidFiledData {
         try{
+            Validation.isDataPatientValide(nom, prenom, telephone, email, photo, ville);
             PatientEntity p = patientRepository.findById(id).get();
             VilleEntity villeEntity = new VilleEntity();
             p.setNom(nom);
@@ -97,7 +110,9 @@ public class PatientService {
             throw new UnsupportedValueOfIdDetected("Selectionnez une ville valide depuis la liste et réessayer");
         }catch (IllegalArgumentException e1){
             throw  new SavingElementFailed("Impossible de modifier pour le moment réessayer plus tard");
-        }catch (Exception e2){
+        }catch (InvalidFiledData e2){
+            throw e2;
+        } catch (Exception e3){
             throw new UnknownErrorCauses(" Erreur inconnue. ");
         }
 

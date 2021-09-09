@@ -1,10 +1,40 @@
-<html xmlns:th="https://www.thymeleaf.org">
+<html lang="fr"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="_layout"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
 <head th:include="~{fragments/head :: head}"></head>
 <body>
 
 <header th:include="~{fragments/header :: header}"></header>
 <main>
-    <h2>Bienvenue dans votre application </h2>
+    <div class="app-table">
+        <h2>Bienvenue dans votre application </h2>
+        <h3 sec:authorize="hasRole('ROLE_ADMIN')" >Vous êtes connecté en tant qu'administrateur</h3>
+        <h3 sec:authorize="hasRole('ROLE_USER')" >Vous êtes connecté en tant qu'utilisateur</h3>
+        <div sec:authorize="isAuthenticated()">
+            Authenticated as <span sec:authentication="name"></span></div>
+    </div>
+    <table class="app-table" >
+        <thead>
+        <tr>
+            <th>Nom  :  </th>
+            <td th:text="${#authorization.getAuthentication().getPrincipal().getUser().name}"></td>
+        </tr>
+        <tr>
+            <th>Email :  </th>
+            <td th:text="${#authorization.getAuthentication().getPrincipal().getUser().email}"></td>
+        </tr>
+        <tr>
+            <th>Username : </th>
+            <td th:text="${#authorization.getAuthentication().getPrincipal().getUser().username}"></td>
+
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
 
 </main>
 <footer th:include="~{fragments/footer :: footer}"></footer>

@@ -41,6 +41,11 @@ public class UserDetailsImpl implements UserDetails {
 //        return authorities;
 //    }
 
+
+    public UserEntity getUser() {
+        return user;
+    }
+
     @Override
     public String getPassword() {
         return user.getPassword();

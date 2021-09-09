@@ -13,6 +13,22 @@ public class PatientEntity {
     private String photo;
     private VilleEntity ville;
 
+//    public PatientEntity(String nom, String prenom, String telephone, String email, String photo) {
+//        this.nom = nom;
+//
+//    }
+
+
+    public PatientEntity() {
+    }
+    public PatientEntity(String nom, String prenom, String telephone, String email,  String photo) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.telephone = telephone;
+        this.photo = photo;
+    }
+
     @Id
     @Column(name = "id")
     public int getId() {

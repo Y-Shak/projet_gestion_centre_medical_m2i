@@ -4,8 +4,6 @@ import com.example.patient.entities.PatientEntity;
 import com.example.patient.entities.VilleEntity;
 import com.example.patient.exceptions.ErrorChargingData;
 import com.example.patient.exceptions.ErrorChargingOneElementData;
-import com.example.patient.repositories.PatientRepository;
-import com.example.patient.repositories.VilleRepository;
 import com.example.patient.services.PatientService;
 import com.example.patient.services.VilleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +18,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/patient")
 public class PatientController {
-
-    private final PatientRepository patientRepository;
-    private final VilleRepository villeRepository;
-
-    public PatientController(PatientRepository patientRepository, VilleRepository villeRepository) {
-        this.patientRepository = patientRepository;
-        this.villeRepository = villeRepository;
-    }
 
     @Autowired
     private PatientService patientService;
@@ -73,7 +63,7 @@ public class PatientController {
         String errorMessage = null;
         try{
             model.addAttribute("villes" , villeService.findAllVilles());
-            model.addAttribute("patient", patientService.findPatienById(id));
+            model.addAttribute("patient", patientService.findPatientById(id));
         }catch(Exception e){
             errorMessage = e.getMessage();
             model.addAttribute("errorMessage", errorMessage);
@@ -84,21 +74,28 @@ public class PatientController {
     @PostMapping("/add")
     public String addPatientPost(HttpServletRequest request,Model model){
         String errorMessage = null;
+        String nom = (String) request.getParameter("nom");
+        String prenom = (String) request.getParameter("prenom");
+        String telephone = (String) request.getParameter("telephone");
+        String email = (String) request.getParameter("email");
+        String photo = (String) request.getParameter("photo");
+        try {
+            model.addAttribute("villes" , villeService.findAllVilles());
+        } catch (Exception e) {
+            errorMessage = e.getMessage();
+            model.addAttribute("errorMessage", errorMessage);
+            return "patient/add_edit";
+        }
         try {
             patientService.addPatient(
-                    (String) request.getParameter("nom"),
-                    (String) request.getParameter("prenom"),
-                    (String) request.getParameter("telephone"),
-                    (String) request.getParameter("email"),
-                    (String) request.getParameter("photo"),
-                    (String)  request.getParameter("ville_depuis_template")
+                    nom, prenom, telephone, email, photo, (String)  request.getParameter("ville_depuis_template")
             );
-            model.addAttribute("errorMessage", errorMessage);
             return "redirect:/patient/all";
         }catch (Exception e){
             errorMessage = e.getMessage();
             model.addAttribute("errorMessage", errorMessage);
-            return addPatientGet(model);
+            model.addAttribute("patient", new PatientEntity(nom, prenom, telephone, email, photo));
+            return "patient/add_edit";
         }
     }
 
@@ -118,9 +115,7 @@ public class PatientController {
                     (String)  request.getParameter("ville_depuis_template")
             );
             return "redirect:/patient/all";
-
         }catch(Exception e){
-            // todo test edit et add apres modification
             errorMessage = e.getMessage();
             model.addAttribute("errorMessage", errorMessage);
             return editPatientGet(id,model);
